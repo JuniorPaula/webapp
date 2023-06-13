@@ -26,17 +26,18 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer conn.Close()
 
 	app.DB = db.PostgresConn{DB: conn}
 
-	// get a session maneger
+	// get a session manager
 	app.Session = getSession()
 
 	// print out a message
-	log.Println("[::] Starting server in port 8080")
+	log.Println("[::] Starting server in port 8000")
 
 	// start the server
-	err = http.ListenAndServe(":8080", app.routes())
+	err = http.ListenAndServe(":8000", app.routes())
 	if err != nil {
 		log.Fatal(err)
 	}
