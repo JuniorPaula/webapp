@@ -54,7 +54,7 @@ func TestMain(m *testing.M) {
 	}
 
 	// get a resource (docker image)
-	resource, err := pool.RunWithOptions(&opts)
+	resource, err = pool.RunWithOptions(&opts)
 	if err != nil {
 		_ = pool.Purge(resource)
 		log.Fatalf("could not start resource: %s", err)
@@ -63,7 +63,7 @@ func TestMain(m *testing.M) {
 	// start the image and wait until it's ready
 	if err := pool.Retry(func() error {
 		var err error
-		testDB, err := sql.Open("pgx", fmt.Sprintf(dsn, host, port, user, password, dbName))
+		testDB, err = sql.Open("pgx", fmt.Sprintf(dsn, host, port, user, password, dbName))
 		if err != nil {
 			log.Println("Error:", err)
 			return err
@@ -75,11 +75,41 @@ func TestMain(m *testing.M) {
 	}
 
 	// populate the database with empty tables
+	err = createTables()
+	if err != nil {
+		log.Fatalf("error create tables: %s", err)
+	}
 
 	// run tests
 	code := m.Run()
 
 	// clean up
+	if err := pool.Purge(resource); err != nil {
+		log.Fatalf("could not purge resource: %s", err)
+	}
 
 	os.Exit(code)
+}
+
+func createTables() error {
+	tableSQL, err := os.ReadFile("./testdata/users.sql")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	_, err = testDB.Exec(string(tableSQL))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+func Test_pingDB(t *testing.T) {
+	err := testDB.Ping()
+	if err != nil {
+		t.Error("cant't ping database")
+	}
 }
