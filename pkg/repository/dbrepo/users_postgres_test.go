@@ -227,3 +227,20 @@ func TestPostgresDbRepoDeleteUser(t *testing.T) {
 		t.Error("retrieved user id 2, who should been deleted")
 	}
 }
+
+func TestPostgresDBRepoResetPassword(t *testing.T) {
+	err := testRepo.ResetPassword(1, "password")
+	if err != nil {
+		t.Error("error resetting user's password", err)
+	}
+
+	user, _ := testRepo.GetUser(1)
+	matches, err := user.PasswordMatches("password")
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !matches {
+		t.Errorf("password should match 'password', but got does not")
+	}
+}
