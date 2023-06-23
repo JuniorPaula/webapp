@@ -199,3 +199,19 @@ func TestPostgresDbRepoGetUserByEmail(t *testing.T) {
 		t.Errorf("wrong returned by GetUserByEmail; expected 2 but got %d", user.ID)
 	}
 }
+
+func TestPostgresDBRepoUpdateUser(t *testing.T) {
+	user, _ := testRepo.GetUser(2)
+	user.FirstName = "Jane"
+	user.Email = "jane@email.com"
+
+	err := testRepo.UpdateUser(*user)
+	if err != nil {
+		t.Errorf("error updating user %d: %s", 2, err)
+	}
+
+	user, _ = testRepo.GetUser(2)
+	if user.FirstName != "Jane" || user.Email != "jane@email.com" {
+		t.Errorf("expected updated record to have first name Jane and email jane@email.com, but got %s %s", user.FirstName, user.Email)
+	}
+}
