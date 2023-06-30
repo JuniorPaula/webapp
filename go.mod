@@ -6,7 +6,10 @@ require github.com/go-chi/chi/v5 v5.0.8
 
 require github.com/alexedwards/scs/v2 v2.5.1
 
-require golang.org/x/net v0.11.0 // indirect
+require (
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	golang.org/x/net v0.11.0 // indirect
+)
 
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
