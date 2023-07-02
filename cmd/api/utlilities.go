@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"io"
 	"net/http"
 )
 
@@ -71,7 +72,7 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 
 	// make sure only one JSON value in payload
 	err = dec.Decode(&struct{}{})
-	if err != nil {
+	if err != io.EOF {
 		return errors.New("body must only contain a sigle JSON value")
 	}
 
