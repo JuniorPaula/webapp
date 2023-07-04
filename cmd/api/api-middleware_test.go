@@ -72,7 +72,7 @@ func Test_app_authRequire(t *testing.T) {
 		handlerToTest.ServeHTTP(rr, req)
 
 		if e.expectedAuthorized && rr.Code == http.StatusUnauthorized {
-			t.Errorf("%s: got code 402, and should not have", e.name)
+			t.Errorf("%s: got code 401, and should not have", e.name)
 		}
 
 		if !e.expectedAuthorized && rr.Code != http.StatusUnauthorized {
