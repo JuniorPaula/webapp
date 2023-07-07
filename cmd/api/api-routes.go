@@ -17,6 +17,12 @@ func (app *application) routes() http.Handler {
 
 	mux.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./html/"))))
 
+	mux.Route("/web", func(r chi.Router) {
+		r.Post("/auth", app.autheticate)
+		// /refresh-token
+		// /logout
+	})
+
 	// authetication routes - auth handler, refresh
 	mux.Post("/auth", app.autheticate)
 	mux.Post("/refresh-token", app.refresh)
