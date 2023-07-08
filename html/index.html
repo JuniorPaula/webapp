@@ -66,7 +66,7 @@
 
     let loginForm = document.getElementById("login-form")
     let loginBtn = document.getElementById("login")
-    let userBtn = document.getElementById("getUser-btn")
+    let userBtn = document.getElementById("getUserBtn")
     let userOutput = document.getElementById("user-output")
     let tokensDiv = document.getElementById("tokens")
     let tokensDisplay = document.getElementById("token")
@@ -146,6 +146,27 @@
                 console.log("user is not logged in");
             });
     }
+
+    userBtn.addEventListener("click", function() {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json")
+        myHeaders.append("Authorization", "Bearer " + access_token);
+
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+        }
+
+        fetch(`users/1`, requestOptions)
+            .then(resp => resp.json())
+            .then(data => {
+                if(data) {
+                    userOutput.innerHTML = JSON.stringify(data, null, 2);
+                }
+            }).catch(err => {
+                userOutput.innerHTML = "Log in first!";
+            })
+    })
 
     function setUI(loggedIn) {
         if(loggedIn) {
