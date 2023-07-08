@@ -22,6 +22,7 @@ func (app *application) routes() http.Handler {
 		// /refresh-token
 		r.Get("/refresh-token", app.refreshUsingCookie)
 		// /logout
+		r.Get("/logout", app.deleteRefreshCookie)
 	})
 
 	// authetication routes - auth handler, refresh

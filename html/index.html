@@ -187,6 +187,18 @@
         }
     }
 
+    logoutBtn.addEventListener("click", function() {
+        access_token = ""
+        refresh_token = ""
+
+        fetch(`/web/logout`, {method: "GET"})
+        .then(resp => {
+            setUI(false)
+        }).catch(err => {
+            userOutput.innerHTML = err
+        })
+    })
+
 </script>
 
 </body>
