@@ -95,7 +95,6 @@
         fetch(`/web/auth`, requestOptions)
             .then((resp) => resp.json())
             .then((data) => {
-                console.log(data)
                 if (data.access_token) {
                     access_token = data.access_token;
                     refresh_token = data.refresh_token;
@@ -116,6 +115,7 @@
         fetch(`/web/refresh-token`, requestOptions)
             .then(resp => resp.json())
             .then(data => {
+                console.log("data", data)
                 if(data.access_token) {
                     access_token = data.access_token;
                     refresh_token = data.refresh_token;
