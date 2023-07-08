@@ -10,6 +10,7 @@ This is a project of a simple web application in Golang that aims to test the lo
 
 -   **Login**: The application includes a login system that allows users to authenticate with their credentials and access protected resources.
 -   **Image Upload**: Users can upload images to the application, which are then stored on the server.
+- **API REST**: The application include an api rest to login and authentication the users.
 
 ## Integration Testing for Image Upload
 
@@ -111,4 +112,67 @@ To run integration tests
 --- PASS: TestPostgresDBRepoInsertUserImage (0.00s)
 PASS
 ok      webapp/pkg/repository/dbrepo 
+```
+
+## API Rest
+this is a feature that was added later. consists of a rest api to authenticate and keep the user logged in through the refresh token
+
+### Quicky start
+```
+$ go run ./cmd/api
+```
+
+### Routes
+**WEB**
+authentication
+`[POST] /web/auth`
+refresh token
+`[GET] /web/refresh_token`
+logout
+`[GET] /web/logout`
+
+**Authentication**
+auth
+`[POST] /auth`
+refresh token
+`[POST] /refresh-token`
+
+**Users**
+get all
+`[GET] /users/`
+get by id
+`[GET] /users/{id}`
+delete
+`[DELETE] /users/{id}`
+insert
+`[PUT] /users/`
+update
+`[PATCH] /users/`
+
+### Integration tests
+```
+$ cd ./cmd/api
+$ go test . -v
+```
+```
+=== RUN   Test_app_authenticate
+--- PASS: Test_app_authenticate (2.05s)
+=== RUN   Test_app_refresh
+--- PASS: Test_app_refresh (0.00s)
+=== RUN   Test_app_userHandlers
+--- PASS: Test_app_userHandlers (0.00s)
+=== RUN   Test_app_refreshUsingCookie
+--- PASS: Test_app_refreshUsingCookie (0.00s)
+=== RUN   Test_app_deleteRefreshCookie
+--- PASS: Test_app_deleteRefreshCookie (0.00s)
+=== RUN   Test_app_enableCORS
+--- PASS: Test_app_enableCORS (0.00s)
+=== RUN   Test_app_authRequire
+--- PASS: Test_app_authRequire (0.00s)
+=== RUN   Test_app_routes
+--- PASS: Test_app_routes (0.00s)
+=== RUN   Test_app_getTokenFromHeaderAndVerify
+--- PASS: Test_app_getTokenFromHeaderAndVerify (0.00s)
+PASS
+ok      webapp/cmd/api  (cached)
 ```
